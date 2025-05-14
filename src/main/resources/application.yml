@@ -16,11 +16,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
 
-#  flyway:
-#    url: jdbc:mysql://localhost:3306
-#    schemas: cambio_service
-#    user: root
-#    password: admin123
+  flyway:
+    url: jdbc:mysql://localhost:3306
+    schemas: cambio_service
+    user: root
+    password: admin123
 
 server:
   port: 8000
