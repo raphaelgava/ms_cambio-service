@@ -1,6 +1,7 @@
 spring:
   application:
-    name: ms_cambio-service
+    #nome aqui não pode ter caracteres tipo _ para que o Feign não se perca. O mesmo nome que está aqui é o que vai aparecer no eureka e é o mesmo que deve estar na anotação @FeignClient(name = "ms-cambio-service") do serviço que vai acessar esse aqui (para que seja possível encontrar o serviço no load balance
+    name: ms-cambio-service
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
