@@ -45,3 +45,10 @@ eureka:
   #Outra opção é gerar a configuração no arquivo C:\Windows\System32\drivers\etc\hosts apontando Raphael-PC.mshome.net para localhost
   instance:
     hostname: localhost #Raphael-PC.mshome.net
+
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: cambio-service/v3/api-docs
+#  swagger-ui:
+#    path: /swagger-ui.html
