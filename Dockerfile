@@ -3,16 +3,16 @@
 # COPY ${JAR_FILE} app.jar
 # ENTRYPOINT ["java","-jar","/app.jar"]
 FROM openjdk:21
-ARG JAR_FILE=ms_cambio-service/target/*.jar
-ARG JAR_FILE_URL=./components/ms_cambio-service/target/*.jar
-#COPY ${JAR_FILE} app.jar
-RUN if [ -f ${JAR_FILE} ]; then \
-        echo ${JAR_FILE} \
-        cp ${JAR_FILE} app.jar; \
-    else \
-        echo ${JAR_FILE_URL} \
-        cp ${JAR_FILE_URL} app.jar; \
-    fi
+ARG CAMBIO_JAR_FILE=ms_cambio-service/target/*.jar
+#ARG CAMBIO_JAR_FILE_URL=./components/ms_cambio-service/target/*.jar
+COPY ${CAMBIO_JAR_FILE} app.jar
+#RUN if [ -f ${CAMBIO_JAR_FILE} ]; then \
+#        echo ${CAMBIO_JAR_FILE} \
+#        cp ${CAMBIO_JAR_FILE} app.jar; \
+#    else \
+#        echo ${CAMBIO_JAR_FILE_URL} \
+#        cp ${CAMBIO_JAR_FILE_URL} app.jar; \
+#    fi
 
 RUN bash -c 'touch /app.jar'
 ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","/app.jar"]
