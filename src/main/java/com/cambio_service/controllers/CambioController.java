@@ -41,7 +41,7 @@ public class CambioController {
         var port = environment.getProperty("local.server.port");
         log.info("server.port=" + environment.getProperty("server.port"));
         log.info("local.server.port=" + environment.getProperty("local.server.port"));
-
+        log.info("getCambio is called with: {}, {} and {}", amount, from, to);
         var cambio = repository.findByFromAndTo(from, to);
         if (cambio == null){
             throw  new RuntimeException("Currency Unsupported");
