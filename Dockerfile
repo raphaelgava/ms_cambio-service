@@ -2,42 +2,51 @@
 # ARG JAR_FILE=target/*.jar
 # COPY ${JAR_FILE} app.jar
 # ENTRYPOINT ["java","-jar","/app.jar"]
+# Não tem suporte dos commandos linux
 FROM openjdk:21
-ARG CAMBIO_JAR_FILE=ms_cambio-service/target/*.jar
-#ARG CAMBIO_JAR_FILE_URL=./components/ms_cambio-service/target/*.jar
-COPY ${CAMBIO_JAR_FILE} app.jar
-#RUN if [ -f ${CAMBIO_JAR_FILE} ]; then \
-#        echo ${CAMBIO_JAR_FILE} \
-#        cp ${CAMBIO_JAR_FILE} app.jar; \
-#    else \
-#        echo ${CAMBIO_JAR_FILE_URL} \
-#        cp ${CAMBIO_JAR_FILE_URL} app.jar; \
-#    fi
+# Tem suporte dos comandos linux
+#FROM openjdk:21-jdk-slim
+#RUN apt-get install -y findutils
+#RUN apt-get update && apt-get install -y bash
 
+# by dockerfile build (rodando da pasta do projeto)
+#ARG JAR_FILE=target/*.jar
+#COPY ${JAR_FILE} app.jar
+
+# by docker compose (rodando fora da pasta do projeto)
+#ARG CAMBIO_JAR_FILE=ms_cambio-service/target/*.jar
+#COPY ${CAMBIO_JAR_FILE} app.jar
+
+# by docker compose (rodando pelo modulo)
+ARG CAMBIO_JAR_FILE=components/ms_cambio-service/target/*.jar
+COPY ${CAMBIO_JAR_FILE} app.jar
+
+#RUN find . -name app.jar
 RUN bash -c 'touch /app.jar'
+#garante que os comandos sempre serão executados
 ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","/app.jar"]
 
 # Command to run docker: C:\WINDOWS\system32> docker run hello-world
-# Command to run: C:\Users\Raphael\IdeaProjects\microservices> docker build -t microservice:0.0.1-SNAPSHOT .
-# Command to check: PS C:\Users\Raphael\IdeaProjects\microservices> docker images
+# Command to run: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker build -t cambio-service:0.0.2-SNAPSHOT .
+# Command to check: PS C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker images
 # REPOSITORY                                TAG                                                                           IMAGE ID       CREATED              SIZE
 # microservice                              0.0.1-SNAPSHOT                                                                fc2415048a40   About a minute ago   1.03GB
 # https://hub.docker.com/
-# Command to tag for dockerhub (also to create lasted version): C:\Users\Raphael\IdeaProjects\microservices> docker tag microservice:0.0.1-SNAPSHOT raphaelgava1/microservice:0.0.1-SNAPSHOT
-# Command to check: C:\Users\Raphael\IdeaProjects\microservices> docker images
+# Command to tag for dockerhub (also to create lasted version): C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker tag cambio-service:0.0.2-SNAPSHOT raphaelgava1/cambio-service:0.0.2-SNAPSHOT
+# Command to check: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker images
 # REPOSITORY                                TAG                                                                           IMAGE ID       CREATED          SIZE
 # microservice                              0.0.1-SNAPSHOT                                                                fc2415048a40   12 minutes ago   1.03GB
 # raphaelgava1/microservice                 0.0.1-SNAPSHOT                                                                fc2415048a40   12 minutes ago   1.03GB
-# Command to login: C:\Users\Raphael\IdeaProjects\microservices> docker login docker.io
+# Command to login: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker login docker.io
 # Authenticating with existing credentials... [Username: raphaelgava1]
-# Command to send image to docker: PS C:\Users\Raphael\IdeaProjects\microservices> docker push raphaelgava1/microservice:0.0.1-SNAPSHOT
+# Command to send image to docker: PS C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker push raphaelgava1/cambio-service:0.0.2-SNAPSHOT
 # The push refers to repository [docker.io/raphaelgava1/microservice]
-# Command to run docker: C:\Users\Raphael\IdeaProjects\microservices> docker run -p 80:80 raphaelgava1/microservice:0.0.1-SNAPSHOT
+# Command to run docker: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker run -p 80:80 raphaelgava1/cambio-service:0.0.2-SNAPSHOT
 # -p host:docker (ports)
-# Command to validate dockers running: C:\Users\Raphael\IdeaProjects\microservices> docker container ls
+# Command to validate dockers running: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker container ls
 # Command to check log in real time: docker logs -f 'id'
 # Command to close: docker container stop 'id'
-# Command to search docker: C:\Users\Raphael\IdeaProjects\microservices> docker search mysql
+# Command to search docker: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker search mysql
 # NAME                   DESCRIPTION                                     STARS     OFFICIAL
 # mysql                  MySQL is a widely used, open-source relation…   15790     [OK]
 # bitnami/mysql          Bitnami container image for MySQL               134
@@ -48,16 +57,16 @@ ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","/app.jar"]
 # Command to debug: docker events
 # Command to check the process : docker top 'id'
 # Command of statistics: docker stats
-# Command to run process with memory and cpu limited: docker run -p 80:80 -d -m 512m --cpu-quota 80000 raphaelgava1/microservice:0.0.1-SNAPSHOT
+# Command to run process with memory and cpu limited: docker run -p 80:80 -d -m 512m --cpu-quota 80000 raphaelgava1/cambio-service:0.0.2-SNAPSHOT
 # Command : docker system df
-# Command to list network: C:\Users\Raphael\IdeaProjects\microservices> docker network ls
+# Command to list network: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker network ls
 #NETWORK ID     NAME                       DRIVER    SCOPE
 #6bab9e832d81   bridge                     bridge    local
 #22edb9bc6516   host                       host      local
 #e45befd17820   microservices_default      bridge    local
 #4bab983453e4   microservices_my_network   bridge    local
 #73a602f76b8e   none                       null      local
-# Command to inspect: C:\Users\Raphael\IdeaProjects\microservices> docker network inspect microservices_my_network
+# Command to inspect: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker network inspect microservices_my_network
 #[
 #    {
 #        "Name": "microservices_my_network",
@@ -69,5 +78,5 @@ ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","/app.jar"]
 #        "EnableIPv6": false,
 #Zipkin
 #Zipkin is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures
-# Command to install: C:\Users\Raphael\IdeaProjects\microservices> docker run -p 9411:9411 openzipkin/zipkin:latest
+# Command to install: C:\Users\Raphael\IdeaProjects\ms_cambio-service> docker run -p 9411:9411 openzipkin/zipkin:latest
 # Command to acess: http://localhost:9411/zipkin/
